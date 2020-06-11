@@ -35,7 +35,6 @@ namespace jBot.TweetConsole
             SearchParams searchParams = new SearchParams()
             {
                 HashTags = new List<string>() { "#SHL", "#ÖrebroHockey" },
-                SinceId  = dataFile.LastSinceID,
                 MaxItems = 10
             };
 
@@ -43,7 +42,7 @@ namespace jBot.TweetConsole
             ServiceInstance serviceInstance = new ServiceInstance(authToken);
 
             //Search for tweets
-            Search search = new Search(serviceInstance);
+            Search search = new Search(serviceInstance, dataFile);
             search.SearchTweets(searchParams);
         }
     }

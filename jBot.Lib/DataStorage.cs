@@ -6,8 +6,9 @@ namespace jBot.Lib
     //TODO: Add support for multiple sections in one file
     public class DataStorage
     {
+        //private variables
         private long _lastSinceId = -1;
-        private string _fileName;
+        private readonly string _fileName;
 
         public DataStorage(string FileName)
         {
@@ -36,6 +37,21 @@ namespace jBot.Lib
                 _lastSinceId = value;
                 File.WriteAllText(_fileName, _lastSinceId.ToString());
             }
+        }
+
+        public bool Reset()
+        {
+            try
+            {
+                File.WriteAllText(_fileName, "0");
+                return true;
+            }
+            catch
+            {
+                //TODO: add logging
+            }
+
+            return false;
         }
     }
 }

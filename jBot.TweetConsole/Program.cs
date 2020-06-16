@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using jBot.Lib.Models;
 using System.Collections.Generic;
 using jBot.Lib;
+using jBot.Lib.Business;
 
 namespace jBot.TweetConsole
 {
@@ -44,6 +45,9 @@ namespace jBot.TweetConsole
             //Search for tweets
             Search search = new Search(serviceInstance, dataFile);
             search.SearchTweets(searchParams);
+
+            //Add delegate, like search with action
+
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace jBot.Lib
+namespace jBot.Lib.Business
 {
     public class Diagnostics
     {

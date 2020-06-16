@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Business\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TweetMoaSharp" Version="6.0.2" />

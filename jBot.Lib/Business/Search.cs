@@ -4,7 +4,7 @@ using System.Linq;
 using jBot.Lib.Models;
 using TweetSharp;
 
-namespace jBot.Lib
+namespace jBot.Lib.Business
 {
     public class Search
     {

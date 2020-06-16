@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace jBot.Lib
+namespace jBot.Lib.Business
 {
     //TODO: Add support for multiple sections in one file
     public class DataStorage

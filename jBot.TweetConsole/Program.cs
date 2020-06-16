@@ -43,11 +43,13 @@ namespace jBot.TweetConsole
             ServiceInstance serviceInstance = new ServiceInstance(authToken);
 
             //Search for tweets
-            Search search = new Search(serviceInstance, dataFile);
-            search.SearchTweets(searchParams);
+            //Search search = new Search(serviceInstance, dataFile);
+            //search.SearchTweets(searchParams);
 
-            //Add delegate, like search with action
-
+            foreach(var c in Capabilities.GetAll())
+            {
+                Console.WriteLine(ActionHandler.RunAction(c.ActionMethod));
+            }
         }
     }
 }

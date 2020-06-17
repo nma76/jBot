@@ -50,7 +50,7 @@ namespace jBot.Lib.Business
                     //Id of tweet to reply to
                     var inReplyToId = tweet.Id;
 
-                    //Send tweet
+                    //Send tweet. TODO: Error handling
                     _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
                     //Update "since"-id to avoid answering to the same tweet again

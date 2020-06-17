@@ -8,5 +8,6 @@ namespace jBot.Lib.Models
         public DateTime ModifiedSince { get; set; }
         public List<string> HashTags { get; set; }
         public int MaxItems { get; set; }
+        public long SinceId { get; set; }
     }
 }

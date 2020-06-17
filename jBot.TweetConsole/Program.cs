@@ -21,7 +21,7 @@ namespace jBot.TweetConsole
             var dataFileSection = Configuration.GetSection("DataFile");
 
             //Create a file to keep track of last used twitter id
-            //DataStorage dataFile = new DataStorage(dataFileSection["Name"]);
+            DataStorage dataStorage = new DataStorage(dataFileSection["Name"]);
 
             //Create authentication object
             AuthToken authToken = new AuthToken()
@@ -33,23 +33,12 @@ namespace jBot.TweetConsole
             };
 
             //Create a twitter service instance
-            ServiceInstance serviceInstance = new ServiceInstance(authToken);
+            ServiceInstance serviceInstance = new ServiceInstance(authToken, dataStorage);
 
-            //Add search parameters to get tweets
-            //SearchParams searchParams = new SearchParams()
-            //{
-            //    HashTags = new List<string>() { "#jonikabot" },
-            //    MaxItems = 10
-            //};
-
-
-            //Search for tweets
-            //Search search = new Search(serviceInstance, dataFile);
-            //search.SearchTweets(searchParams);
-
-            foreach(var c in Capabilities.GetAll())
+            //Create action handler and make sure it gets called
+            foreach (var capability in Capabilities.GetAll())
             {                
-                Console.WriteLine(ActionHandler.RunAction(c.ActionMethod));
+                Console.WriteLine(ActionHandler.RunAction(capability.ActionMethod, serviceInstance));
             }
         }
     }

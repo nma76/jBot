@@ -9,13 +9,10 @@ namespace jBot.Lib.Business
     public class Search
     {
         private readonly ServiceInstance _serviceInstance;
-        //private DataStorage _dataFile;
 
-        //public Search(ServiceInstance serviceInstance, DataStorage dataFile)
         public Search(ServiceInstance serviceInstance)
         {
             _serviceInstance = serviceInstance;
-            //_dataFile = dataFile;
         }
 
         public List<TwitterStatus> SearchTweets(SearchParams searchParams)
@@ -25,7 +22,7 @@ namespace jBot.Lib.Business
             if (searchParams.HashTags.Count > 0)
                 searchOptions.Q = string.Join(' ', searchParams.HashTags);
 
-            //searchOptions.SinceId = _dataFile.LastSinceID;
+            searchOptions.SinceId = searchParams.SinceId;
 
             if (searchParams.MaxItems > 0)
                 searchOptions.Count = searchParams.MaxItems;

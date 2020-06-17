@@ -40,11 +40,12 @@ namespace jBot.Lib.Business
                 try
                 {
                     //Build the reply message based on bots capabilities
-                    var reply = $"@{tweet.User.ScreenName} \n\n";
+                    var reply = $"@{tweet.User.ScreenName} \n\n This bot have the following capabilities:\n";
                     foreach(var capability in Capabilities.GetAll())
                     {
                         reply += $"{capability.HashTag}: {capability.Description}\n";
                     }
+                    reply += "\nAlways include #jonikabot + the capability you want to execute.";
 
                     //Id of tweet to reply to
                     var inReplyToId = tweet.Id;

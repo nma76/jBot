@@ -65,7 +65,7 @@ namespace jBot.Lib.Business
 
                     //Send tweet. TODO: Error handling
                     _statusText += $"Replying to {tweet.User.ScreenName}\n";
-                    //_ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
+                    _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
                     //Update "since"-id to avoid answering to the same tweet again
                     serviceInstance.Storage.Save(storageIdentifier, inReplyToId);

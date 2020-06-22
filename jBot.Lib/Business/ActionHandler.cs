@@ -14,7 +14,7 @@ namespace jBot.Lib.Business
         public static string RunAction(string methodName, ServiceInstance serviceInstance)
         {
             //Reset status text
-            _statusText = $"Running Action Method {methodName}";
+            _statusText = $"Running Action Method {methodName}\n";
             
             //Call action method
             var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
@@ -24,28 +24,30 @@ namespace jBot.Lib.Business
 
         private static string UptimeAction(ServiceInstance serviceInstance)
         {
-            return "Uptime Not Implemented";
+            //filename to store sice id
+            var storageIdentifier = "uptime";
+
+            List<string> HashTags = new List<string>() { "#jonikabot", "#uptime" };
+            List<TwitterStatus> tweets = GetTweets(serviceInstance, storageIdentifier, HashTags);
+
+            //Iterate all found tweets
+            foreach (var tweet in tweets)
+            {
+            }
+
+            return _statusText;
         }
 
         private static string HelpAction(ServiceInstance serviceInstance)
         {
             //filename to store sice id
-            var storageIdentifier = "jonikabot_help";
+            var storageIdentifier = "help";
 
-            //Add search parameters to get tweets
-            _statusText += "Looking for tweets with hash tags #jonikabot and #help\n";
-            
-            //Add search parameters to get tweets
-            SearchParams searchParams = new SearchParams()
-            {
-                HashTags = new List<string>() { "#jonikabot", "#help" },
-                SinceId = serviceInstance.Storage.Load(storageIdentifier)
-            };
+            //has tags to look for
+            List<string> HashTags = new List<string>() { "#jonikabot", "#help" };
 
-            //Search for tweets
-            Search search = new Search(serviceInstance);
-            var tweets = search.SearchTweets(searchParams);
-	        _statusText += $"Found {tweets.Count} tweets\n";
+            //Get tweets
+            List<TwitterStatus> tweets = GetTweets(serviceInstance, storageIdentifier, HashTags);
 	
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -80,7 +82,37 @@ namespace jBot.Lib.Business
 
         private static string FbkAction(ServiceInstance serviceInstance)
         {
-            return "FBK Not Implemented";
+            //filename to store sice id
+            var storageIdentifier = "fbk";
+
+            List<string> HashTags = new List<string>() { "#jonikabot", "#fbk" };
+            List<TwitterStatus> tweets = GetTweets(serviceInstance, storageIdentifier, HashTags);
+
+            //Iterate all found tweets
+            foreach (var tweet in tweets)
+            {
+            }
+
+            return _statusText;
+        }
+
+        private static List<TwitterStatus> GetTweets(ServiceInstance serviceInstance, string storageIdentifier, List<string> HashTags)
+        {
+            //Add search parameters to get tweets
+            _statusText += $"Looking for tweets with hash tags {string.Join(" ", HashTags)}\n";
+
+            //Add search parameters to get tweets
+            SearchParams searchParams = new SearchParams()
+            {
+                HashTags = HashTags,
+                SinceId = serviceInstance.Storage.Load(storageIdentifier)
+            };
+
+            //Search for tweets
+            Search search = new Search(serviceInstance);
+            var tweets = search.SearchTweets(searchParams);
+            _statusText += $"Found {tweets.Count} tweets\n";
+            return tweets;
         }
     }
 }

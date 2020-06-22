@@ -23,9 +23,14 @@ namespace jBot.Lib.Business
 
         private static string helpAction(ServiceInstance serviceInstance)
         {
+            //Initialize text to return to caller
+            string statusText = "Running Action Method: Help\n";
+
+            //name of datafile to store sinceId for this action
             var storageIdentifier = "jonikabot_help";
 
             //Add search parameters to get tweets
+            statusText += "Looking for tweets with hash tags #jonikabot and #help\n";
             SearchParams searchParams = new SearchParams()
             {
                 HashTags = new List<string>() { "#jonikabot", "#help" },
@@ -35,6 +40,7 @@ namespace jBot.Lib.Business
             //Search for tweets
             Search search = new Search(serviceInstance);
             var tweets = search.SearchTweets(searchParams);
+            statusText += $"Found {tweets.Count} tweets\n";
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -53,6 +59,7 @@ namespace jBot.Lib.Business
                     var inReplyToId = tweet.Id;
 
                     //Send tweet. TODO: Error handling
+                    statusText += $"Replying to {tweet.User.ScreenName}\n";
                     _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
                     //Update "since"-id to avoid answering to the same tweet again
@@ -63,7 +70,7 @@ namespace jBot.Lib.Business
 
             }
 
-            return "Help Not Implemented";
+            return statusText;
         }
 
         private static string fbkAction(ServiceInstance serviceInstance)

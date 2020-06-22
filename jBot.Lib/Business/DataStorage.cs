@@ -42,19 +42,14 @@ namespace jBot.Lib.Business
             return 0;
         }
 
-        //public bool Reset()
-        //{
-        //    try
-        //    {
-        //        File.WriteAllText(_filePrefix, "0");
-        //        return true;
-        //    }
-        //    catch
-        //    {
-        //        //TODO: add logging
-        //    }
+        public void Reset(string Identifier)
+        {
+            var dataFile = Path.Combine(_folder, $"{_filePrefix}_{Identifier}.dat");
 
-        //    return false;
-        //}
+            if (File.Exists(dataFile))
+            {
+                Save(Identifier, 0);
+            }
+        }
     }
 }

@@ -11,17 +11,17 @@ namespace jBot.Lib.Business
     {
         public static string RunAction(string methodName, ServiceInstance serviceInstance)
         {
-            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic);
+            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
             var func = (Func<ServiceInstance, string>)Delegate.CreateDelegate(typeof(Func<ServiceInstance, string>), method);
             return func(serviceInstance);
         }
 
-        private static string uptimeAction(ServiceInstance serviceInstance)
+        private static string UptimeAction(ServiceInstance serviceInstance)
         {
             return "Uptime Not Implemented";
         }
 
-        private static string helpAction(ServiceInstance serviceInstance)
+        private static string HelpAction(ServiceInstance serviceInstance)
         {
             //Initialize text to return to caller
             string statusText = "Running Action Method: Help\n";
@@ -73,7 +73,7 @@ namespace jBot.Lib.Business
             return statusText;
         }
 
-        private static string fbkAction(ServiceInstance serviceInstance)
+        private static string FbkAction(ServiceInstance serviceInstance)
         {
             return "FBK Not Implemented";
         }

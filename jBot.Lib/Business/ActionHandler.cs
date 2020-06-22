@@ -17,19 +17,19 @@ namespace jBot.Lib.Business
             _statusText = $"Running Action Method {methodName}";
             
             //Call action method
-            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic);
+            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
             var func = (Func<ServiceInstance, string>)Delegate.CreateDelegate(typeof(Func<ServiceInstance, string>), method);
             return func(serviceInstance);
         }
 
-        private static string uptimeAction(ServiceInstance serviceInstance)
+        private static string UptimeAction(ServiceInstance serviceInstance)
         {
             return "Uptime Not Implemented";
         }
 
-        private static string helpAction(ServiceInstance serviceInstance)
+        private static string HelpAction(ServiceInstance serviceInstance)
         {
-            //filename to store sice idı
+            //filename to store sice id
             var storageIdentifier = "jonikabot_help";
 
             //Add search parameters to get tweets
@@ -78,7 +78,7 @@ namespace jBot.Lib.Business
             return _statusText;
         }
 
-        private static string fbkAction(ServiceInstance serviceInstance)
+        private static string FbkAction(ServiceInstance serviceInstance)
         {
             return "FBK Not Implemented";
         }

@@ -33,6 +33,11 @@ namespace jBot.Lib.Business
             //Iterate all found tweets
             foreach (var tweet in tweets)
             {
+                //Build the reply message based on bots capabilities
+                var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
+
+                //Send tweet
+                SendTweet(serviceInstance, storageIdentifier, tweet, reply);
             }
 
             return _statusText;
@@ -56,21 +61,14 @@ namespace jBot.Lib.Business
                 {
                     //Build the reply message based on bots capabilities
                     var reply = $"@{tweet.User.ScreenName} \n\n This bot have the following capabilities:\n";
-                    foreach(var capability in Capabilities.GetAll())
+                    foreach (var capability in Capabilities.GetAll())
                     {
                         reply += $"{capability.HashTag}: {capability.Description}\n";
                     }
                     reply += "\nAlways include #jonikabot + the capability you want to execute.";
 
-                    //Id of tweet to reply to
-                    var inReplyToId = tweet.Id;
-
-                    //Send tweet. TODO: Error handling
-                    _statusText += $"Replying to {tweet.User.ScreenName}\n";
-                    _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
-
-                    //Update "since"-id to avoid answering to the same tweet again
-                    serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
+                    //Send tweet
+                    SendTweet(serviceInstance, storageIdentifier, tweet, reply);
                 }
 
                 catch { }
@@ -91,6 +89,11 @@ namespace jBot.Lib.Business
             //Iterate all found tweets
             foreach (var tweet in tweets)
             {
+                //Build the reply message based on bots capabilities
+                var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
+
+                //Send tweet
+                SendTweet(serviceInstance, storageIdentifier, tweet, reply);
             }
 
             return _statusText;
@@ -113,6 +116,19 @@ namespace jBot.Lib.Business
             var tweets = search.SearchTweets(searchParams);
             _statusText += $"Found {tweets.Count} tweets\n";
             return tweets;
+        }
+
+        private static void SendTweet(ServiceInstance serviceInstance, string storageIdentifier, TwitterStatus tweet, string reply)
+        {
+            //Id of tweet to reply to
+            var inReplyToId = tweet.Id;
+
+            //Send tweet. TODO: Error handling
+            _statusText += $"Replying to {tweet.User.ScreenName}\n";
+            _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
+
+            //Update "since"-id to avoid answering to the same tweet again
+            serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
         }
     }
 }

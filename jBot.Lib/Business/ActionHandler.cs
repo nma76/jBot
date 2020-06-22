@@ -23,11 +23,13 @@ namespace jBot.Lib.Business
 
         private static string helpAction(ServiceInstance serviceInstance)
         {
+            var storageIdentifier = "jonikabot_help";
+
             //Add search parameters to get tweets
             SearchParams searchParams = new SearchParams()
             {
                 HashTags = new List<string>() { "#jonikabot", "#help" },
-                SinceId = serviceInstance.Storage.LastSinceID
+                SinceId = serviceInstance.Storage.Load(storageIdentifier)
             };
 
             //Search for tweets
@@ -54,7 +56,7 @@ namespace jBot.Lib.Business
                     _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
                     //Update "since"-id to avoid answering to the same tweet again
-                    serviceInstance.Storage.LastSinceID = inReplyToId;
+                    serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
                 }
 
                 catch { }

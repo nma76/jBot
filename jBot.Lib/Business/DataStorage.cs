@@ -3,55 +3,58 @@ using System.IO;
 
 namespace jBot.Lib.Business
 {
-    //TODO: Add support for multiple sections in one file
     public class DataStorage
     {
         //private variables
-        private long _lastSinceId = -1;
-        private readonly string _fileName;
+        private readonly string _filePrefix;
+        private readonly string _folder;
 
-        public DataStorage(string FileName)
+        public DataStorage(string Folder, string FilePrefix)
         {
-            _fileName = FileName;
+            _folder = Folder;
+            _filePrefix = FilePrefix;
         }
 
-        public long LastSinceID
+        public void Save(string Identifier, long SinceId)
         {
-            get
-            {
-                if (_lastSinceId == -1)
-                {
-                    if (File.Exists(_fileName))
-                    {
-                        long.TryParse(File.ReadAllText(_fileName), out _lastSinceId);
-                    }
-                    else
-                    {
-                        LastSinceID = 0;
-                    }
-                }
-                return _lastSinceId;
-            }
-            set
-            {
-                _lastSinceId = value;
-                File.WriteAllText(_fileName, _lastSinceId.ToString());
-            }
+            var dataFile = Path.Combine(_folder, $"{_filePrefix}_{Identifier}.dat");
+            File.WriteAllText(dataFile, SinceId.ToString());
         }
 
-        public bool Reset()
+        public long Load(string Identifier)
         {
+            var dataFile = Path.Combine(_folder, $"{_filePrefix}_{Identifier}.dat");
+
             try
             {
-                File.WriteAllText(_fileName, "0");
-                return true;
+                if (File.Exists(dataFile))
+                {
+                    long.TryParse(File.ReadAllText(dataFile), out long SinceId);
+                    return SinceId;
+                }
+                else
+                {
+                    Save(Identifier, 0);
+                }
             }
-            catch
-            {
-                //TODO: add logging
-            }
+            catch { }
 
-            return false;
+            return 0;
         }
+
+        //public bool Reset()
+        //{
+        //    try
+        //    {
+        //        File.WriteAllText(_filePrefix, "0");
+        //        return true;
+        //    }
+        //    catch
+        //    {
+        //        //TODO: add logging
+        //    }
+
+        //    return false;
+        //}
     }
 }

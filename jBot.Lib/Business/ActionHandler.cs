@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Reflection;
 using jBot.Lib.Models;
+using jBot.Lib.Utils;
 using TweetSharp;
 
 namespace jBot.Lib.Business
@@ -41,7 +41,8 @@ namespace jBot.Lib.Business
             foreach (var tweet in tweets)
             {
                 //Build the reply message based on bots capabilities
-                var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
+                var reply = $"@{tweet.User.ScreenName} \n\n This bot has been running for:";
+                reply += UptimeHelper.Uptime ?? "";
 
                 //Send tweet
                 SendTweet(storageIdentifier, tweet, reply);

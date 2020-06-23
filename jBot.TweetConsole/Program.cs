@@ -1,9 +1,8 @@
 ﻿using System;
-using Microsoft.Extensions.Configuration;
-using jBot.Lib.Models;
-using System.Collections.Generic;
 using jBot.Lib;
 using jBot.Lib.Business;
+using jBot.Lib.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace jBot.TweetConsole
 {

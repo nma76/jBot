@@ -11,4 +11,7 @@
   <ItemGroup>
     <PackageReference Include="TweetMoaSharp" Version="6.0.2" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\jBot.Lib.SystemCommand\jBot.Lib.SystemCommand.csproj" />
+  </ItemGroup>
 </Project>

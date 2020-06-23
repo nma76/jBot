@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jBot.Lib", "jBot.Lib\jBot.L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jBot.TweetConsole", "jBot.TweetConsole\jBot.TweetConsole.csproj", "{D3A923FA-F9DC-4911-91F1-7C72B052E31E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jBot.Lib.SystemCommand", "jBot.Lib.SystemCommand\jBot.Lib.SystemCommand.csproj", "{21991092-B0B1-4523-863C-7D1C9CD61D49}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +19,5 @@ Global
 		{D3A923FA-F9DC-4911-91F1-7C72B052E31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3A923FA-F9DC-4911-91F1-7C72B052E31E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3A923FA-F9DC-4911-91F1-7C72B052E31E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21991092-B0B1-4523-863C-7D1C9CD61D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21991092-B0B1-4523-863C-7D1C9CD61D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21991092-B0B1-4523-863C-7D1C9CD61D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21991092-B0B1-4523-863C-7D1C9CD61D49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -15,7 +15,7 @@ namespace jBot.Lib.Business
             _serviceInstance = serviceInstance;
         }
 
-        public List<TwitterStatus> SearchTweets(SearchParams searchParams)
+        public List<TwitterStatus> SearchTweets(SearchParams searchParams, bool excludeReplies = true)
         {
             var searchOptions = new SearchOptions();
 
@@ -29,7 +29,10 @@ namespace jBot.Lib.Business
 
             var result = _serviceInstance.Instance.Search(searchOptions);
 
-            return result.Statuses.ToList();
+            if (excludeReplies)
+                return result.Statuses.Where(x => x.InReplyToStatusId.Equals(null)).ToList();
+            else
+                return result.Statuses.ToList();
         }
     }
 }

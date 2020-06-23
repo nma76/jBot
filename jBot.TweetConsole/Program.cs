@@ -39,8 +39,9 @@ namespace jBot.TweetConsole
             foreach (var capability in Capabilities.GetAll())
             {
                 ActionHandler actionHandler = new ActionHandler(serviceInstance);
-                actionHandler.RunAction(capability.ActionMethod);
-                //Console.WriteLine(ActionHandler.RunAction(capability.ActionMethod, serviceInstance));
+                string result = actionHandler.RunAction(capability.ActionMethod);
+
+                Console.WriteLine(result);
             }
         }
     }

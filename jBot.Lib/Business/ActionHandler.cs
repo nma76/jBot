@@ -35,7 +35,7 @@ namespace jBot.Lib.Business
             var storageIdentifier = "uptime";
 
             List<string> HashTags = new List<string>() { "#jonikabot", "#uptime" };
-            List<TwitterStatus> tweets = GetTweets(_serviceInstance, storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -44,7 +44,7 @@ namespace jBot.Lib.Business
                 var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
 
                 //Send tweet
-                SendTweet(_serviceInstance, storageIdentifier, tweet, reply);
+                SendTweet(storageIdentifier, tweet, reply);
             }
 
             return _statusText;
@@ -59,7 +59,7 @@ namespace jBot.Lib.Business
             List<string> HashTags = new List<string>() { "#jonikabot", "#help" };
 
             //Get tweets
-            List<TwitterStatus> tweets = GetTweets(_serviceInstance, storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
 	
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -75,7 +75,7 @@ namespace jBot.Lib.Business
                     reply += "\nAlways include #jonikabot + the capability you want to execute.";
 
                     //Send tweet
-                    SendTweet(_serviceInstance, storageIdentifier, tweet, reply);
+                    SendTweet(storageIdentifier, tweet, reply);
                 }
 
                 catch { }
@@ -91,7 +91,7 @@ namespace jBot.Lib.Business
             var storageIdentifier = "fbk";
 
             List<string> HashTags = new List<string>() { "#jonikabot", "#fbk" };
-            List<TwitterStatus> tweets = GetTweets(_serviceInstance, storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -100,13 +100,13 @@ namespace jBot.Lib.Business
                 var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
 
                 //Send tweet
-                SendTweet(_serviceInstance, storageIdentifier, tweet, reply);
+                SendTweet(storageIdentifier, tweet, reply);
             }
 
             return _statusText;
         }
 
-        private List<TwitterStatus> GetTweets(ServiceInstance serviceInstance, string storageIdentifier, List<string> HashTags)
+        private List<TwitterStatus> GetTweets(string storageIdentifier, List<string> HashTags)
         {
             //Add search parameters to get tweets
             _statusText += $"Looking for tweets with hash tags {string.Join(" ", HashTags)}\n";
@@ -115,27 +115,27 @@ namespace jBot.Lib.Business
             SearchParams searchParams = new SearchParams()
             {
                 HashTags = HashTags,
-                SinceId = serviceInstance.Storage.Load(storageIdentifier)
+                SinceId = _serviceInstance.Storage.Load(storageIdentifier)
             };
 
             //Search for tweets
-            Search search = new Search(serviceInstance);
+            Search search = new Search(_serviceInstance);
             var tweets = search.SearchTweets(searchParams);
             _statusText += $"Found {tweets.Count} tweets\n";
             return tweets;
         }
 
-        private void SendTweet(ServiceInstance serviceInstance, string storageIdentifier, TwitterStatus tweet, string reply)
+        private void SendTweet(string storageIdentifier, TwitterStatus tweet, string reply)
         {
             //Id of tweet to reply to
             var inReplyToId = tweet.Id;
 
             //Send tweet. TODO: Error handling
             _statusText += $"Replying to {tweet.User.ScreenName}\n";
-            _ = serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
+            _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
             //Update "since"-id to avoid answering to the same tweet again
-            serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
+            _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
         }
     }
 }

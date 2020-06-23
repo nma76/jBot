@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using jBot.Lib.Business.ImageOverlay;
 using jBot.Lib.Business.SystemCommand;
 using jBot.Lib.Models;
 using TweetSharp;
@@ -99,10 +100,24 @@ namespace jBot.Lib.Business
             foreach (var tweet in tweets)
             {
                 //Build the reply message based on bots capabilities
-                var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
+                var reply = $"@{tweet.User.ScreenName} \n\n Your new profile picture!\n";
 
-                //Send tweet
-                SendTweet(storageIdentifier, tweet, reply);
+                //Get authors profile image url
+                var profileImageUrl = tweet.Author.ProfileImageUrl.Replace("_normal", "_400x400");
+
+                //Get the newly created profile picture
+                var overlayImageUrl = Path.Combine(_serviceInstance.Storage.Folder, "fbk_logo.png");
+
+                if (File.Exists(overlayImageUrl))
+                {
+                    var newProfileImageUrl = OverlayHelper.CreateLogoImage(profileImageUrl, overlayImageUrl);
+
+                    if (newProfileImageUrl != null)
+                    {
+                        //Send tweet
+                        SendTweet(storageIdentifier, tweet, reply, newProfileImageUrl);
+                    }
+                }
             }
 
             return _statusText;

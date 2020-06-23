@@ -9,44 +9,49 @@ namespace jBot.Lib.Business.ImageOverlay
     {
         public static string CreateLogoImage(string orginalImageUrl, string overLayImageUrl)
         {
-
-            Image LogoImage = Image.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, overLayImageUrl));
-
-            using (WebClient client = new WebClient())
+            try
             {
-                byte[] ImageData = client.DownloadData(orginalImageUrl);
-                using (MemoryStream ImageStream = new MemoryStream(ImageData))
+                Image logoImage = Image.FromFile(overLayImageUrl);
+
+                using (WebClient client = new WebClient())
                 {
-                    Image OriginalImage = Image.FromStream(ImageStream);
-
-                    using (OriginalImage)
+                    byte[] imageData = client.DownloadData(orginalImageUrl);
+                    using (MemoryStream imageStream = new MemoryStream(imageData))
                     {
-                        using (Bitmap NewBitmap = new Bitmap(400, 400))
+                        Image originalImage = Image.FromStream(imageStream);
+
+                        using (originalImage)
                         {
-                            using (Graphics Canvas = Graphics.FromImage((NewBitmap)))
+                            using (Bitmap newBitmap = new Bitmap(400, 400))
                             {
-                                Canvas.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                                Canvas.DrawImage(
-                                    OriginalImage,
-                                    new Rectangle(0, 0, 400, 400),
-                                    new Rectangle(0, 0, OriginalImage.Width, OriginalImage.Height),
-                                    GraphicsUnit.Pixel
-                                );
+                                using (Graphics canvas = Graphics.FromImage((newBitmap)))
+                                {
+                                    canvas.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                                    canvas.DrawImage(
+                                        originalImage,
+                                        new Rectangle(0, 0, 400, 400),
+                                        new Rectangle(0, 0, originalImage.Width, originalImage.Height),
+                                        GraphicsUnit.Pixel
+                                    );
 
-                                Canvas.DrawImage(
-                                    LogoImage,
-                                    new Point(80, NewBitmap.Size.Height - NewBitmap.Size.Height - 30)
-                                );
-                                Canvas.Save();
+                                    canvas.DrawImage(
+                                        logoImage,
+                                        new Point(80, newBitmap.Size.Height - logoImage.Size.Height - 30)
+                                    );
+                                    canvas.Save();
 
-                                string OutputFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetTempFileName().Replace(".tmp", ".png"));
-                                NewBitmap.Save(OutputFile);
-                                return OutputFile;
+                                    string OutputFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetTempFileName().Replace(".tmp", ".png"));
+                                    newBitmap.Save(OutputFile);
+                                    return OutputFile;
+                                }
                             }
                         }
                     }
                 }
             }
-        }
+            catch { }
+
+            return null;
+        }        
     }
 }

@@ -51,5 +51,13 @@ namespace jBot.Lib.Business
                 Save(Identifier, 0);
             }
         }
+
+        public string Folder
+        {
+            get
+            {
+                return _folder;
+            }
+        }
     }
 }

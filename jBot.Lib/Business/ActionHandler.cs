@@ -7,28 +7,35 @@ using TweetSharp;
 
 namespace jBot.Lib.Business
 {
-    public static class ActionHandler
+    public class ActionHandler
     {
-        private static string _statusText;
+        private string _statusText;
+        private readonly ServiceInstance _serviceInstance;
 
-        public static string RunAction(string methodName, ServiceInstance serviceInstance)
+        public ActionHandler(ServiceInstance serviceInstance)
+        {
+            _statusText = "";
+            _serviceInstance = serviceInstance;
+        }
+
+        public string RunAction(string methodName)
         {
             //Reset status text
             _statusText = $"Running Action Method {methodName}\n";
             
             //Call action method
-            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
-            var func = (Func<ServiceInstance, string>)Delegate.CreateDelegate(typeof(Func<ServiceInstance, string>), method);
-            return func(serviceInstance);
+            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
+            var func = (Func<string>)Delegate.CreateDelegate(typeof(Func<string>), this, method);
+            return func();
         }
 
-        private static string UptimeAction(ServiceInstance serviceInstance)
+        private string UptimeAction()
         {
             //filename to store sice id
             var storageIdentifier = "uptime";
 
             List<string> HashTags = new List<string>() { "#jonikabot", "#uptime" };
-            List<TwitterStatus> tweets = GetTweets(serviceInstance, storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = GetTweets(_serviceInstance, storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -37,13 +44,13 @@ namespace jBot.Lib.Business
                 var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
 
                 //Send tweet
-                SendTweet(serviceInstance, storageIdentifier, tweet, reply);
+                SendTweet(_serviceInstance, storageIdentifier, tweet, reply);
             }
 
             return _statusText;
         }
 
-        private static string HelpAction(ServiceInstance serviceInstance)
+        private string HelpAction()
         {
             //filename to store sice id
             var storageIdentifier = "help";
@@ -52,7 +59,7 @@ namespace jBot.Lib.Business
             List<string> HashTags = new List<string>() { "#jonikabot", "#help" };
 
             //Get tweets
-            List<TwitterStatus> tweets = GetTweets(serviceInstance, storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = GetTweets(_serviceInstance, storageIdentifier, HashTags);
 	
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -68,7 +75,7 @@ namespace jBot.Lib.Business
                     reply += "\nAlways include #jonikabot + the capability you want to execute.";
 
                     //Send tweet
-                    SendTweet(serviceInstance, storageIdentifier, tweet, reply);
+                    SendTweet(_serviceInstance, storageIdentifier, tweet, reply);
                 }
 
                 catch { }
@@ -78,13 +85,13 @@ namespace jBot.Lib.Business
             return _statusText;
         }
 
-        private static string FbkAction(ServiceInstance serviceInstance)
+        private string FbkAction()
         {
             //filename to store sice id
             var storageIdentifier = "fbk";
 
             List<string> HashTags = new List<string>() { "#jonikabot", "#fbk" };
-            List<TwitterStatus> tweets = GetTweets(serviceInstance, storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = GetTweets(_serviceInstance, storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -93,13 +100,13 @@ namespace jBot.Lib.Business
                 var reply = $"@{tweet.User.ScreenName} \n\n xx xxx xxxxx xx xxx xx\n";
 
                 //Send tweet
-                SendTweet(serviceInstance, storageIdentifier, tweet, reply);
+                SendTweet(_serviceInstance, storageIdentifier, tweet, reply);
             }
 
             return _statusText;
         }
 
-        private static List<TwitterStatus> GetTweets(ServiceInstance serviceInstance, string storageIdentifier, List<string> HashTags)
+        private List<TwitterStatus> GetTweets(ServiceInstance serviceInstance, string storageIdentifier, List<string> HashTags)
         {
             //Add search parameters to get tweets
             _statusText += $"Looking for tweets with hash tags {string.Join(" ", HashTags)}\n";
@@ -118,7 +125,7 @@ namespace jBot.Lib.Business
             return tweets;
         }
 
-        private static void SendTweet(ServiceInstance serviceInstance, string storageIdentifier, TwitterStatus tweet, string reply)
+        private void SendTweet(ServiceInstance serviceInstance, string storageIdentifier, TwitterStatus tweet, string reply)
         {
             //Id of tweet to reply to
             var inReplyToId = tweet.Id;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using jBot.Lib.Business.SystemCommand;
 using jBot.Lib.Models;
@@ -22,7 +23,7 @@ namespace jBot.Lib.Business
         {
             //Reset status text
             _statusText = $"Running Action Method {methodName}\n";
-            
+
             //Call action method
             var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
             var func = (Func<string>)Delegate.CreateDelegate(typeof(Func<string>), this, method);
@@ -61,7 +62,7 @@ namespace jBot.Lib.Business
 
             //Get tweets
             List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
-	
+
             //Iterate all found tweets
             foreach (var tweet in tweets)
             {
@@ -137,6 +138,31 @@ namespace jBot.Lib.Business
 
             //Update "since"-id to avoid answering to the same tweet again
             _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
+        }
+
+        private void SendTweet(string storageIdentifier, TwitterStatus tweet, string reply, string MediaPath)
+        {
+            //Id of tweet to reply to
+            var inReplyToId = tweet.Id;
+
+            if (File.Exists(MediaPath))
+            {
+                using (var stream = new FileStream(MediaPath, FileMode.Open))
+                {
+                    var Media = _serviceInstance.Instance.UploadMedia(new UploadMediaOptions() { Media = new MediaFile() { FileName = MediaPath, Content = stream } });
+                    List<string> MediaIds = new List<string>
+                    {
+                        Media.Media_Id
+                    };
+
+                    //Send tweet. TODO: Error handling
+                    _statusText += $"Replying to {tweet.User.ScreenName}\n";
+                    _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId, MediaIds = MediaIds });
+
+                    //Update "since"-id to avoid answering to the same tweet again
+                    _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
+                }
+            }
         }
     }
 }

@@ -8,8 +8,10 @@
     <Folder Include="Models\" />
     <Folder Include="Business\" />
     <Folder Include="Business\SystemCommand\" />
+    <Folder Include="Business\ImageOverlay\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TweetMoaSharp" Version="6.0.2" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 </Project>

@@ -17,10 +17,10 @@ namespace jBot.TweetConsole
 
             //Read configurarion sections
             var authSection = Configuration.GetSection("Authentication");
-            var dataFileSection = Configuration.GetSection("DataFile");
+            var dataFileSection = Configuration.GetSection("DataStore");
 
             //Create a file to keep track of last used twitter id
-            DataStorage dataStorage = new DataStorage(dataFileSection["Folder"], dataFileSection["FilePrefix"]);
+            DataStorage dataStorage = new DataStorage(dataFileSection["DataFolder"], dataFileSection["DataFilePrefix"], dataFileSection["OverlayFolder"]);
 
             //Create authentication object
             AuthToken authToken = new AuthToken()

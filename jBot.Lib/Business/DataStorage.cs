@@ -7,23 +7,25 @@ namespace jBot.Lib.Business
     {
         //private variables
         private readonly string _filePrefix;
-        private readonly string _folder;
+        private readonly string _datafolder;
+        private readonly string _overlayFolder;
 
-        public DataStorage(string Folder, string FilePrefix)
+        public DataStorage(string DataFolder, string DataFilePrefix, string OverlayFolder)
         {
-            _folder = Folder;
-            _filePrefix = FilePrefix;
+            _datafolder = DataFolder;
+            _filePrefix = DataFilePrefix;
+            _overlayFolder = OverlayFolder;
         }
 
         public void Save(string Identifier, long SinceId)
         {
-            var dataFile = Path.Combine(_folder, $"{_filePrefix}_{Identifier}.dat");
+            var dataFile = Path.Combine(_datafolder, $"{_filePrefix}_{Identifier}.dat");
             File.WriteAllText(dataFile, SinceId.ToString());
         }
 
         public long Load(string Identifier)
         {
-            var dataFile = Path.Combine(_folder, $"{_filePrefix}_{Identifier}.dat");
+            var dataFile = Path.Combine(_datafolder, $"{_filePrefix}_{Identifier}.dat");
 
             try
             {
@@ -44,7 +46,7 @@ namespace jBot.Lib.Business
 
         public void Reset(string Identifier)
         {
-            var dataFile = Path.Combine(_folder, $"{_filePrefix}_{Identifier}.dat");
+            var dataFile = Path.Combine(_datafolder, $"{_filePrefix}_{Identifier}.dat");
 
             if (File.Exists(dataFile))
             {
@@ -52,11 +54,19 @@ namespace jBot.Lib.Business
             }
         }
 
-        public string Folder
+        public string DataFolder
         {
             get
             {
-                return _folder;
+                return _datafolder;
+            }
+        }
+
+        public string OverleyFolder
+        {
+            get
+            {
+                return _overlayFolder;
             }
         }
     }

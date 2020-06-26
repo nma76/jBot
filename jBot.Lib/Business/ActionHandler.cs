@@ -106,7 +106,7 @@ namespace jBot.Lib.Business
                 var profileImageUrl = tweet.Author.ProfileImageUrl.Replace("_normal", "_400x400");
 
                 //Get the newly created profile picture
-                var overlayImageUrl = Path.Combine(_serviceInstance.Storage.Folder, "fbk_logo.png");
+                var overlayImageUrl = Path.Combine(_serviceInstance.Storage.OverleyFolder, "fbk_logo.png");
 
                 if (File.Exists(overlayImageUrl))
                 {
@@ -117,6 +117,10 @@ namespace jBot.Lib.Business
                         //Send tweet
                         SendTweet(storageIdentifier, tweet, reply, newProfileImageUrl);
                     }
+                }
+                else
+                {
+                    _statusText += "Cannot find overlay image!";
                 }
             }
 

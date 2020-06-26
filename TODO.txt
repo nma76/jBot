@@ -4,3 +4,6 @@
 - Katalog för loggar
 
 Loggning!!
+
+
+Base hashtag to listen to in config

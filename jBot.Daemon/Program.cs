@@ -1,13 +1,21 @@
-﻿using System;
-using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace jBot.Daemon
 {
-    class Program
+    public class Program
     {
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
-            await ConsoleHost.WaitForShutdownAsync();
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseSystemd()
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<Worker>();
+                });
     }
 }

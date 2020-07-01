@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		REAME.md = REAME.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jBot.Daemon", "jBot.Daemon\jBot.Daemon.csproj", "{2EF12B0B-B8BD-44CD-9717-BCEBB32F4EC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jBot.Daemon", "jBot.Daemon\jBot.Daemon.csproj", "{EC274215-6242-40AF-BBBB-3B94DCA65162}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +27,9 @@ Global
 		{D3A923FA-F9DC-4911-91F1-7C72B052E31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3A923FA-F9DC-4911-91F1-7C72B052E31E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3A923FA-F9DC-4911-91F1-7C72B052E31E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EF12B0B-B8BD-44CD-9717-BCEBB32F4EC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EF12B0B-B8BD-44CD-9717-BCEBB32F4EC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EF12B0B-B8BD-44CD-9717-BCEBB32F4EC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EF12B0B-B8BD-44CD-9717-BCEBB32F4EC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC274215-6242-40AF-BBBB-3B94DCA65162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC274215-6242-40AF-BBBB-3B94DCA65162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC274215-6242-40AF-BBBB-3B94DCA65162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC274215-6242-40AF-BBBB-3B94DCA65162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

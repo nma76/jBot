@@ -1,6 +1,4 @@
 ﻿Separata inställningar för
-- Datafilskatalog
-- Katalog för overlays
 - Katalog för loggar
 
 Loggning!!

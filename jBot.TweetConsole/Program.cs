@@ -31,8 +31,16 @@ namespace jBot.TweetConsole
                 ConsumerKeySecret = authSection["ConsumerKeySecret"]
             };
 
+            //Create configuration object
+            BotConfiguration configuration = new BotConfiguration
+            {
+                BaseHashTag = "#jonikabot",
+                AuthToken = authToken,
+                DataStorage = dataStorage
+            };
+
             //Create a twitter service instance
-            ServiceInstance serviceInstance = new ServiceInstance(authToken, dataStorage);
+            ServiceInstance serviceInstance = new ServiceInstance(configuration);
 
             //Create action handler and make sure it gets called
             foreach (var capability in Capabilities.GetAll())

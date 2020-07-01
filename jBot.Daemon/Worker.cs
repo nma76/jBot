@@ -39,9 +39,17 @@ namespace jBot.Daemon
                 ConsumerKeySecret = _options.Authentication.ConsumerKeySecret
             };
 
+            //Create configuration object
+            BotConfiguration configuration = new BotConfiguration
+            {
+                BaseHashTag = "#jonikabot",
+                AuthToken = authToken,
+                DataStorage = dataStorage
+            };
+
             //Create a twitter service instance
             _logger.LogInformation("Created twitter service instance");
-            ServiceInstance serviceInstance = new ServiceInstance(authToken, dataStorage);
+            ServiceInstance serviceInstance = new ServiceInstance(configuration);
 
             while (!stoppingToken.IsCancellationRequested)
             {

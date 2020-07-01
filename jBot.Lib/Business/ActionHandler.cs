@@ -38,7 +38,7 @@ namespace jBot.Lib.Business
             //filename to store sice id
             var storageIdentifier = capability.HashTag.Substring(1);
 
-            List<string> HashTags = new List<string>() { "#jonikabot", capability.HashTag };
+            List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
@@ -61,7 +61,7 @@ namespace jBot.Lib.Business
             var storageIdentifier = capability.HashTag.Substring(1);
 
             //has tags to look for
-            List<string> HashTags = new List<string>() { "#jonikabot", capability.HashTag };
+            List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
 
             //Get tweets
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
@@ -77,7 +77,7 @@ namespace jBot.Lib.Business
                     {
                         reply += $"{currentCapability.HashTag}: {currentCapability.Description}\n";
                     }
-                    reply += "\nAlways include #jonikabot + the capability you want to execute.";
+                    reply += $"\nAlways include {_serviceInstance.BotConfiguration.BaseHashTag} + the capability you want to execute.";
 
                     //Send tweet
                     _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
@@ -95,7 +95,7 @@ namespace jBot.Lib.Business
             //filename to store sice id
             var storageIdentifier = capability.HashTag.Substring(1);
 
-            List<string> HashTags = new List<string>() { "#jonikabot", capability.HashTag };
+            List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
@@ -108,7 +108,7 @@ namespace jBot.Lib.Business
                 var profileImageUrl = tweet.Author.ProfileImageUrl.Replace("_normal", "_400x400");
 
                 //Get the newly created profile picture
-                var overlayImageUrl = Path.Combine(_serviceInstance.Storage.OverleyFolder, "fbk_logo.png");
+                var overlayImageUrl = Path.Combine(_serviceInstance.BotConfiguration.DataStorage.OverleyFolder, "fbk_logo.png");
 
                 if (File.Exists(overlayImageUrl))
                 {

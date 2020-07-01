@@ -45,7 +45,7 @@ namespace jBot.Lib.Business
             SearchParams searchParams = new SearchParams()
             {
                 HashTags = HashTags,
-                SinceId = _serviceInstance.Storage.Load(storageIdentifier)
+                SinceId = _serviceInstance.BotConfiguration.DataStorage.Load(storageIdentifier)
             };
 
             //Search for tweets
@@ -64,7 +64,7 @@ namespace jBot.Lib.Business
             _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
             //Update "since"-id to avoid answering to the same tweet again
-            _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
+            _serviceInstance.BotConfiguration.DataStorage.Save(storageIdentifier, inReplyToId);
         }
 
         public void SendTweet(string storageIdentifier, TwitterStatus tweet, string reply, string MediaPath)
@@ -87,7 +87,7 @@ namespace jBot.Lib.Business
                     _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId, MediaIds = MediaIds });
 
                     //Update "since"-id to avoid answering to the same tweet again
-                    _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
+                    _serviceInstance.BotConfiguration.DataStorage.Save(storageIdentifier, inReplyToId);
                 }
             }
         }

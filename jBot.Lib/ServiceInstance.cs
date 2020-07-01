@@ -7,13 +7,13 @@ namespace jBot.Lib
 {
     public class ServiceInstance
     {
-        public ServiceInstance(AuthToken authToken, DataStorage dataStorage)
+        public ServiceInstance(BotConfiguration configuration)
         {
-            Instance = new TwitterService(authToken.ConsumerKey, authToken.ConsumerKeySecret, authToken.AccessToken, authToken.AccessTokenSecret);
-            Storage = dataStorage;
+            Instance = new TwitterService(configuration.AuthToken.ConsumerKey, configuration.AuthToken.ConsumerKeySecret, configuration.AuthToken.AccessToken, configuration.AuthToken.AccessTokenSecret);
+            BotConfiguration = configuration;
         }
 
         public TwitterService Instance { get; }
-        public DataStorage Storage { get; set; }
+        public BotConfiguration BotConfiguration { get; set; }
     }
 }

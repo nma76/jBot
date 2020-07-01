@@ -17,10 +17,12 @@ namespace jBot.Daemon
                 .UseSystemd()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    //Add configurations
                     IConfiguration configuration = hostContext.Configuration;
                     DeamonOptions options = configuration.GetSection("Deamon").Get<DeamonOptions>();
                     services.AddSingleton(options);
 
+                    //Add worker
                     services.AddHostedService<Worker>();
                 });
     }

@@ -13,31 +13,33 @@ namespace jBot.Lib.Business
     {
         private string _statusText;
         private readonly ServiceInstance _serviceInstance;
+        private TwitterHelper _twitterHelper;
 
         public ActionHandler(ServiceInstance serviceInstance)
         {
             _statusText = "";
             _serviceInstance = serviceInstance;
+            _twitterHelper = new TwitterHelper(_serviceInstance);
         }
 
-        public string RunAction(string methodName)
+        public string RunAction(Capability capability)
         {
             //Reset status text
-            _statusText = $"Running Action Method {methodName}\n";
+            _statusText = $"Running Action Method {capability.ActionMethod}\n";
 
             //Call action method
-            var method = typeof(ActionHandler).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
-            var func = (Func<string>)Delegate.CreateDelegate(typeof(Func<string>), this, method);
-            return func();
+            var method = typeof(ActionHandler).GetMethod(capability.ActionMethod, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
+            var func = (Func<Capability, string>)Delegate.CreateDelegate(typeof(Func<Capability, string>), this, method);
+            return func(capability);
         }
 
-        private string UptimeAction()
+        private string UptimeAction(Capability capability)
         {
             //filename to store sice id
-            var storageIdentifier = "uptime";
+            var storageIdentifier = capability.HashTag.Substring(1);
 
-            List<string> HashTags = new List<string>() { "#jonikabot", "#uptime" };
-            List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
+            List<string> HashTags = new List<string>() { "#jonikabot", capability.HashTag };
+            List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -47,22 +49,22 @@ namespace jBot.Lib.Business
                 reply += UptimeHelper.Uptime ?? "";
 
                 //Send tweet
-                SendTweet(storageIdentifier, tweet, reply);
+                _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
             }
 
             return _statusText;
         }
 
-        private string HelpAction()
+        private string HelpAction(Capability capability)
         {
             //filename to store sice id
-            var storageIdentifier = "help";
+            var storageIdentifier = capability.HashTag.Substring(1);
 
             //has tags to look for
-            List<string> HashTags = new List<string>() { "#jonikabot", "#help" };
+            List<string> HashTags = new List<string>() { "#jonikabot", capability.HashTag };
 
             //Get tweets
-            List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
+            List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -71,14 +73,14 @@ namespace jBot.Lib.Business
                 {
                     //Build the reply message based on bots capabilities
                     var reply = $"@{tweet.User.ScreenName} \n\n This bot have the following capabilities:\n";
-                    foreach (var capability in Capabilities.GetAll())
+                    foreach (var currentCapability in Capabilities.GetAll())
                     {
-                        reply += $"{capability.HashTag}: {capability.Description}\n";
+                        reply += $"{currentCapability.HashTag}: {currentCapability.Description}\n";
                     }
                     reply += "\nAlways include #jonikabot + the capability you want to execute.";
 
                     //Send tweet
-                    SendTweet(storageIdentifier, tweet, reply);
+                    _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
                 }
 
                 catch { }
@@ -88,13 +90,13 @@ namespace jBot.Lib.Business
             return _statusText;
         }
 
-        private string FbkAction()
+        private string FbkAction(Capability capability)
         {
             //filename to store sice id
-            var storageIdentifier = "fbk";
+            var storageIdentifier = capability.HashTag.Substring(1);
 
-            List<string> HashTags = new List<string>() { "#jonikabot", "#fbk" };
-            List<TwitterStatus> tweets = GetTweets(storageIdentifier, HashTags);
+            List<string> HashTags = new List<string>() { "#jonikabot", capability.HashTag };
+            List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -115,7 +117,7 @@ namespace jBot.Lib.Business
                     if (newProfileImageUrl != null)
                     {
                         //Send tweet
-                        SendTweet(storageIdentifier, tweet, reply, newProfileImageUrl);
+                        _twitterHelper.SendTweet(storageIdentifier, tweet, reply, newProfileImageUrl);
                     }
                 }
                 else
@@ -125,63 +127,6 @@ namespace jBot.Lib.Business
             }
 
             return _statusText;
-        }
-
-        private List<TwitterStatus> GetTweets(string storageIdentifier, List<string> HashTags)
-        {
-            //Add search parameters to get tweets
-            _statusText += $"Looking for tweets with hash tags {string.Join(" ", HashTags)}\n";
-
-            //Add search parameters to get tweets
-            SearchParams searchParams = new SearchParams()
-            {
-                HashTags = HashTags,
-                SinceId = _serviceInstance.Storage.Load(storageIdentifier)
-            };
-
-            //Search for tweets
-            Search search = new Search(_serviceInstance);
-            var tweets = search.SearchTweets(searchParams);
-            _statusText += $"Found {tweets.Count} tweets\n";
-            return tweets;
-        }
-
-        private void SendTweet(string storageIdentifier, TwitterStatus tweet, string reply)
-        {
-            //Id of tweet to reply to
-            var inReplyToId = tweet.Id;
-
-            //Send tweet. TODO: Error handling
-            _statusText += $"Replying to {tweet.User.ScreenName}\n";
-            _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
-
-            //Update "since"-id to avoid answering to the same tweet again
-            _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
-        }
-
-        private void SendTweet(string storageIdentifier, TwitterStatus tweet, string reply, string MediaPath)
-        {
-            //Id of tweet to reply to
-            var inReplyToId = tweet.Id;
-
-            if (File.Exists(MediaPath))
-            {
-                using (var stream = new FileStream(MediaPath, FileMode.Open))
-                {
-                    var Media = _serviceInstance.Instance.UploadMedia(new UploadMediaOptions() { Media = new MediaFile() { FileName = MediaPath, Content = stream } });
-                    List<string> MediaIds = new List<string>
-                    {
-                        Media.Media_Id
-                    };
-
-                    //Send tweet. TODO: Error handling
-                    _statusText += $"Replying to {tweet.User.ScreenName}\n";
-                    _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId, MediaIds = MediaIds });
-
-                    //Update "since"-id to avoid answering to the same tweet again
-                    _serviceInstance.Storage.Save(storageIdentifier, inReplyToId);
-                }
-            }
         }
     }
 }

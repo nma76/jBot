@@ -405,3 +405,5 @@ ASALocalRun/
 .localhistory/
 
 jBot.TweetConsole/appsettings.json
+jBot.Daemon/appsettings.json
+jBot.Daemon/appsettings.Development.json

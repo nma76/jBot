@@ -13,9 +13,9 @@ namespace jBot.Daemon
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
-        private readonly DeamonOptions _options;
+        private readonly DaemonOptions _options;
 
-        public Worker(ILogger<Worker> logger, DeamonOptions options)
+        public Worker(ILogger<Worker> logger, DaemonOptions options)
         {
             _logger = logger;
             _options = options;
@@ -23,14 +23,13 @@ namespace jBot.Daemon
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("jBot deamon started at at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation("jBot daemon started at at: {time}", DateTimeOffset.Now);
 
             //Create a file to keep track of last used twitter id
-            _logger.LogInformation("Created data storage object");
             DataStorage dataStorage = new DataStorage(_options.DataStore.DataFolder, _options.DataStore.DataFilePrefix, _options.DataStore.OverlayFolder);
+            _logger.LogInformation("Created data storage object");
 
             //Create authentication object
-            _logger.LogInformation("Created authentication object");
             AuthToken authToken = new AuthToken()
             {
                 AccessToken = _options.Authentication.AccessToken,
@@ -38,18 +37,21 @@ namespace jBot.Daemon
                 ConsumerKey = _options.Authentication.ConsumerKey,
                 ConsumerKeySecret = _options.Authentication.ConsumerKeySecret
             };
+            _logger.LogInformation("Created authentication object");
 
             //Create configuration object
             BotConfiguration configuration = new BotConfiguration
             {
-                BaseHashTag = "#jonikabot",
+                BaseHashTag = _options.BaseHashTag,
                 AuthToken = authToken,
                 DataStorage = dataStorage
             };
+            _logger.LogInformation("Created configuration object with base hashtag {hashtag}", configuration.BaseHashTag);
 
             //Create a twitter service instance
-            _logger.LogInformation("Created twitter service instance");
             ServiceInstance serviceInstance = new ServiceInstance(configuration);
+            _logger.LogInformation("Created twitter service instance");
+            _logger.LogInformation("Looking for hashtag {basehashtag}", _options.BaseHashTag);
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -58,14 +60,16 @@ namespace jBot.Daemon
                 //Iterate all bots capabilities and execute them
                 foreach (var capability in Capabilities.GetAll())
                 {
-                    ActionHandler actionHandler = new ActionHandler(serviceInstance);
-                    string result = actionHandler.RunAction(capability);
+                    _logger.LogInformation("Running capability {capability} - {description}", capability.ActionMethod, capability.Description);
 
-                    _logger.LogInformation(result);
+                    ActionHandler actionHandler = new ActionHandler(serviceInstance);
+                    //string result = actionHandler.RunAction(capability);
+
+                    //_logger.LogInformation(result);
                 }
 
                 //Wait 30 sec and then run again
-                await Task.Delay(30000, stoppingToken);
+                await Task.Delay(_options.Interval * 1000, stoppingToken);
             }
         }
     }

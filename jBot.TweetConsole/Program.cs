@@ -18,6 +18,7 @@ namespace jBot.TweetConsole
             //Read configurarion sections
             var authSection = Configuration.GetSection("Authentication");
             var dataFileSection = Configuration.GetSection("DataStore");
+            var configurationSection = Configuration.GetSection("Configuration");
 
             //Create a file to keep track of last used twitter id
             DataStorage dataStorage = new DataStorage(dataFileSection["DataFolder"], dataFileSection["DataFilePrefix"], dataFileSection["OverlayFolder"]);
@@ -34,7 +35,7 @@ namespace jBot.TweetConsole
             //Create configuration object
             BotConfiguration configuration = new BotConfiguration
             {
-                BaseHashTag = "#jonikabot",
+                BaseHashTag = configurationSection["BaseHashTag"],
                 AuthToken = authToken,
                 DataStorage = dataStorage
             };

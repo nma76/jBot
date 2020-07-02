@@ -19,7 +19,7 @@ namespace jBot.Daemon
                 {
                     //Add configurations
                     IConfiguration configuration = hostContext.Configuration;
-                    DeamonOptions options = configuration.GetSection("Deamon").Get<DeamonOptions>();
+                    DaemonOptions options = configuration.GetSection("Daemon").Get<DaemonOptions>();
                     services.AddSingleton(options);
 
                     //Add worker

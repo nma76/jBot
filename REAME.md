@@ -35,7 +35,6 @@ Create configuration files for systemd:
 <code>nano /etc/systemd/system/jBot.daemon.service</code>
 
 Content of file, something like this:
-<code>  
 [Unit]  
 Description=jBot daemon  
 DefaultDependencies=no  
@@ -49,7 +48,6 @@ Group=pi
    
 [Install]  
 WantedBy=multi-user.target  
-</code> 
     
 Reload daemons:  
 <code>sudo systemctl daemon-reload</code>

@@ -63,9 +63,9 @@ namespace jBot.Daemon
                     _logger.LogInformation("Running capability {capability} - {description}", capability.ActionMethod, capability.Description);
 
                     ActionHandler actionHandler = new ActionHandler(serviceInstance);
-                    //string result = actionHandler.RunAction(capability);
+                    string result = actionHandler.RunAction(capability);
 
-                    //_logger.LogInformation(result);
+                    _logger.LogInformation(result);
                 }
 
                 //Wait 30 sec and then run again

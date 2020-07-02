@@ -5,3 +5,12 @@ Loggning!!
 
 
 Base hashtag to listen to in config
+
+
+
+
+cd jBot.Daemon/bin/Release/netcoreapp3.1/publish/  
+export PATH=$PATH:/usr/share/dotnet/
+export DOTNET_ROOT=/usr/share/dotnet/
+
+sudo dotnet publish /p:Configuration=Release -f netcoreapp3.1

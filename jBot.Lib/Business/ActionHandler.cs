@@ -40,6 +40,7 @@ namespace jBot.Lib.Business
 
             List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
+            _statusText += $"Found {tweets.Count} tweets to reply to\n";
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -50,6 +51,7 @@ namespace jBot.Lib.Business
 
                 //Send tweet
                 _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
+                _statusText += $"Reply to {tweet.Author.ScreenName} sent!\n";
             }
 
             return _statusText;
@@ -65,6 +67,7 @@ namespace jBot.Lib.Business
 
             //Get tweets
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
+            _statusText += $"Found {tweets.Count} tweets to reply to\n";
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -81,6 +84,7 @@ namespace jBot.Lib.Business
 
                     //Send tweet
                     _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
+                    _statusText += $"Reply to {tweet.Author.ScreenName} sent!\n";
                 }
 
                 catch { }
@@ -97,6 +101,7 @@ namespace jBot.Lib.Business
 
             List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
+            _statusText += $"Found {tweets.Count} tweets to reply to\n";
 
             //Iterate all found tweets
             foreach (var tweet in tweets)
@@ -118,6 +123,7 @@ namespace jBot.Lib.Business
                     {
                         //Send tweet
                         _twitterHelper.SendTweet(storageIdentifier, tweet, reply, newProfileImageUrl);
+                        _statusText += $"Reply to {tweet.Author.ScreenName} sent!\n";
                     }
                 }
                 else

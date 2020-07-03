@@ -6,16 +6,16 @@ This is my implementation of a Twitter-bot, written in c# (NET Core 3), that loo
 Contains all logic for the actual twitter communictaion. Implement your own actions by modifying Capabilities.cs and ActionHandler.cs.
 
 ### jBot.TweetConsole
-Is a console app that runs once and quits. I use this mostly fpr development and debuging.
+Is a console app that runs once and quits. I use this mostly for development and debuging.
 
 **Installation**  
 The only installation required is adding correct values to the apsettings.json (there is an example file in the repo). If you want to use the included action to add overlay images you'll need to copy the image to the folder configured.
 
 ### jBot.Daemon
-Is i Linux daemon that runs continously.
+Is i Linux daemon that runs continously in systemd.
 
 **Installation**    
-You should probably add a user to your system that runs the daemon. In this example i use user pi (since i run this app i a raspberryPi)  
+You should probably add a user to your system that runs the daemon. In this example i use user pi (since i run this app in a raspberryPi)  
   
 Create a directory for the daemon:  
 <code>mkdir /opt/jBot.Daemon</code>
@@ -31,11 +31,10 @@ or to a remote system, something like this:
 scp -r * pi@192.168.1.101:/opt/jBot.Daemon  
 </code>
   
-Create configuration files for systemd:  
+Create configuration file for systemd:  
 <code>nano /etc/systemd/system/jBot.daemon.service</code>
 
 Content of file, something like this:
-<code>  
 [Unit]  
 Description=jBot daemon  
 DefaultDependencies=no  
@@ -49,7 +48,6 @@ Group=pi
    
 [Install]  
 WantedBy=multi-user.target  
-</code> 
     
 Reload daemons:  
 <code>sudo systemctl daemon-reload</code>
@@ -62,3 +60,6 @@ Start daemon:
 
 If you want the daemon to start when system boots, run:  
 <code>sudo systemctl enable jBot.daemon.service</code>
+  
+To read the logs:
+<code>sudo journalctl -u jBot.daemon</code>

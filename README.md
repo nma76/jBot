@@ -1,6 +1,8 @@
 ﻿# jBOT, TwitterBot
 This is my implementation of a Twitter-bot, written in c# (NET Core 3), that looks for hashtags and response to them with defined actions.
-
+  
+Make sure you have a Twitter account with APi communication enabled. You will also need your secrets and tokens. Read more at https://developer.twitter.com. 
+  
 ## Projects   
 ### jBot.Lib  
 Contains all logic for the actual twitter communictaion. Implement your own actions by modifying Capabilities.cs and ActionHandler.cs.

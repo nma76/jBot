@@ -3,6 +3,8 @@ This is my implementation of a Twitter-bot, written in c# (NET Core 3), that loo
   
 Make sure you have a Twitter account with APi communication enabled. You will also need your secrets and tokens. Read more at https://developer.twitter.com. 
   
+The code is written on MacOS with visual Studio Mac and Visual Studio Code and tested on MacOS and Rasbian (Raspberry Pi 3). The daemon should work on any \*nix that supports Net Core and uses Systemd. The console-app should run on any plattform that supports Net Core.
+  
 ## Projects   
 ### jBot.Lib  
 Contains all logic for the actual twitter communictaion. Implement your own actions by modifying Capabilities.cs and ActionHandler.cs.

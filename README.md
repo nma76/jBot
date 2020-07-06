@@ -11,7 +11,7 @@ Contains all logic for the actual twitter communictaion. Implement your own acti
 Is a console app that runs once and quits. I use this mostly for development and debuging.
 
 **Installation**  
-The only installation required is adding correct values to the apsettings.json (there is an example file in the repo). If you want to use the included action to add overlay images you'll need to copy the image to the folder configured.
+The only installation required is adding correct values to the appsettings.json (there is an example file in the repo). If you want to use the included action to add overlay images you'll need to copy the image to the folder configured.
 
 ### jBot.Daemon
 Is i Linux daemon that runs continously in systemd.

@@ -26,7 +26,14 @@ namespace jBot.Daemon
             _logger.LogInformation("jBot daemon started at at: {time}", DateTimeOffset.Now);
 
             //Create a file to keep track of last used twitter id
-            DataStorage dataStorage = new DataStorage(_options.DataStore.DataFolder, _options.DataStore.DataFilePrefix, _options.DataStore.OverlayFolder);
+            //Create a file to keep track of last used twitter id
+            StorageSettings storageSettings = new StorageSettings()
+            {
+                Datafolder = _options.DataStore.DataFolder,
+                FilePrefix = _options.DataStore.DataFilePrefix,
+                OverlayFolder = _options.DataStore.OverlayFolder
+            };
+            DataStorage dataStorage = new DataStorage(storageSettings);
             _logger.LogInformation("Created data storage object");
 
             //Create authentication object

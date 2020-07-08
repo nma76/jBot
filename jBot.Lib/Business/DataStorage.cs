@@ -1,31 +1,28 @@
 ﻿using System;
 using System.IO;
+using jBot.Lib.Models;
 
 namespace jBot.Lib.Business
 {
     public class DataStorage
     {
         //private variables
-        private readonly string _filePrefix;
-        private readonly string _datafolder;
-        private readonly string _overlayFolder;
+        private StorageSettings _storageSettings;
 
-        public DataStorage(string DataFolder, string DataFilePrefix, string OverlayFolder)
+        public DataStorage(StorageSettings storageSettings)
         {
-            _datafolder = DataFolder;
-            _filePrefix = DataFilePrefix;
-            _overlayFolder = OverlayFolder;
+            _storageSettings = storageSettings;
         }
 
         public void Save(string Identifier, long SinceId)
         {
-            var dataFile = Path.Combine(_datafolder, $"{_filePrefix}_{Identifier}.dat");
+            var dataFile = Path.Combine(_storageSettings.Datafolder, $"{_storageSettings.FilePrefix}_{Identifier}.dat");
             File.WriteAllText(dataFile, SinceId.ToString());
         }
 
         public long Load(string Identifier)
         {
-            var dataFile = Path.Combine(_datafolder, $"{_filePrefix}_{Identifier}.dat");
+            var dataFile = Path.Combine(_storageSettings.Datafolder, $"{_storageSettings.FilePrefix}_{Identifier}.dat");
 
             try
             {
@@ -46,7 +43,7 @@ namespace jBot.Lib.Business
 
         public void Reset(string Identifier)
         {
-            var dataFile = Path.Combine(_datafolder, $"{_filePrefix}_{Identifier}.dat");
+            var dataFile = Path.Combine(_storageSettings.Datafolder, $"{_storageSettings.FilePrefix}_{Identifier}.dat");
 
             if (File.Exists(dataFile))
             {
@@ -58,7 +55,7 @@ namespace jBot.Lib.Business
         {
             get
             {
-                return _datafolder;
+                return _storageSettings.Datafolder;
             }
         }
 
@@ -66,7 +63,7 @@ namespace jBot.Lib.Business
         {
             get
             {
-                return _overlayFolder;
+                return _storageSettings.OverlayFolder;
             }
         }
     }

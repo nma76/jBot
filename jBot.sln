@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{80106282-EFCD-42F9-9BA8-A9A1CFB6BAD0}"
 	ProjectSection(SolutionItems) = preProject
 		TODO.txt = TODO.txt
-		REAME.md = REAME.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jBot.Daemon", "jBot.Daemon\jBot.Daemon.csproj", "{EC274215-6242-40AF-BBBB-3B94DCA65162}"

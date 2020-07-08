@@ -39,7 +39,6 @@ namespace jBot.Lib.Business
         public List<TwitterStatus> GetTweets(string storageIdentifier, List<string> HashTags)
         {
             //Add search parameters to get tweets
-            //_statusText += $"Looking for tweets with hash tags {string.Join(" ", HashTags)}\n";
 
             //Add search parameters to get tweets
             SearchParams searchParams = new SearchParams()
@@ -54,7 +53,6 @@ namespace jBot.Lib.Business
             //Add tweet count to diagnostics
             Diagnostics.AddTotalRead(tweets.Count);
 
-            //_statusText += $"Found {tweets.Count} tweets\n";
             return tweets;
         }
 
@@ -64,7 +62,6 @@ namespace jBot.Lib.Business
             var inReplyToId = tweet.Id;
 
             //Send tweet. TODO: Error handling
-            //_statusText += $"Replying to {tweet.User.ScreenName}\n";
             _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
 
             //Add tweet count to diagnostics
@@ -90,7 +87,6 @@ namespace jBot.Lib.Business
                     };
 
                     //Send tweet. TODO: Error handling
-                    //_statusText += $"Replying to {tweet.User.ScreenName}\n";
                     _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId, MediaIds = MediaIds });
 
                     //Add tweet count to diagnostics

@@ -50,6 +50,10 @@ namespace jBot.Lib.Business
 
             //Search for tweets
             var tweets = SearchTweets(searchParams);
+
+            //Add tweet count to diagnostics
+            Diagnostics.AddTotalRead(tweets.Count);
+
             //_statusText += $"Found {tweets.Count} tweets\n";
             return tweets;
         }
@@ -62,6 +66,9 @@ namespace jBot.Lib.Business
             //Send tweet. TODO: Error handling
             //_statusText += $"Replying to {tweet.User.ScreenName}\n";
             _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId });
+
+            //Add tweet count to diagnostics
+            Diagnostics.AddTotalSent(1);
 
             //Update "since"-id to avoid answering to the same tweet again
             _serviceInstance.BotConfiguration.DataStorage.Save(storageIdentifier, inReplyToId);
@@ -85,6 +92,9 @@ namespace jBot.Lib.Business
                     //Send tweet. TODO: Error handling
                     //_statusText += $"Replying to {tweet.User.ScreenName}\n";
                     _ = _serviceInstance.Instance.SendTweet(new SendTweetOptions() { Status = reply, InReplyToStatusId = inReplyToId, MediaIds = MediaIds });
+
+                    //Add tweet count to diagnostics
+                    Diagnostics.AddTotalSent(1);
 
                     //Update "since"-id to avoid answering to the same tweet again
                     _serviceInstance.BotConfiguration.DataStorage.Save(storageIdentifier, inReplyToId);

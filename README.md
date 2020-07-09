@@ -1,4 +1,10 @@
-﻿# jBOT, TwitterBot
+﻿
+[![Generic badge](https://img.shields.io/badge/Build%20status-passing-sucess.svg)](https://shields.io/)
+[![GitHub stars](https://img.shields.io/github/stars/nma76/jBot)](https://github.com/nma76/jBot/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/nma76/jBot)](https://github.com/nma76/jBot/network)
+[![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Fnma76%2FjBot%2F)](https://twitter.com/intent/tweet?text=jBot:&url=https%3A%2F%2Fgithub.com%2Fnma76%2FjBot%2F)
+ 
+ # jBOT, TwitterBot
 This is my implementation of a Twitter-bot, written in c# (NET Core 3), that looks for hashtags and response to them with defined actions.
   
 Make sure you have a Twitter account with APi communication enabled. You will also need your secrets and tokens. Read more at https://developer.twitter.com. 

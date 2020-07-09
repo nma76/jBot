@@ -1,4 +1,5 @@
 ﻿
+[![Generic badge](https://img.shields.io/badge/Project%20status-WIP-yellow.svg)](https://shields.io/)
 [![Generic badge](https://img.shields.io/badge/Build%20status-passing-sucess.svg)](https://shields.io/)
 [![GitHub stars](https://img.shields.io/github/stars/nma76/jBot)](https://github.com/nma76/jBot/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/nma76/jBot)](https://github.com/nma76/jBot/network)

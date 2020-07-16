@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using jBot.Lib.Business.ImageOverlay;
+using jBot.Lib.Business.NameGenerator;
 using jBot.Lib.Business.SystemCommand;
 using jBot.Lib.Models;
 using TweetSharp;
@@ -134,5 +135,56 @@ namespace jBot.Lib.Business
 
             return _statusText;
         }
+
+        private string RefereeAction(Capability capability)
+        {
+            //filename to store sice id
+            var storageIdentifier = capability.HashTag.Substring(1);
+
+            List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
+            List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
+            _statusText += $"Found {tweets.Count} tweets to reply to\n";
+
+            //Iterate all found tweets
+            foreach (var tweet in tweets)
+            {
+                Generator referee = new Generator(NameData.Referees);
+                referee.OriginalName = tweet.User.Name;
+
+                //Build the reply message based on bots capabilities
+                var reply = $"@{tweet.User.ScreenName} \n\n  You are: ";
+                reply += $"{referee.Referee.Type} {referee.Referee.Name}";
+
+                //Send tweet
+                _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
+                _statusText += $"Reply to {tweet.Author.ScreenName} sent!\n";
+            }
+
+            return _statusText;
+        }
+
+        //Stub to create new action
+        //private string XxxxxxAction(Capability capability)
+        //{
+        //    //filename to store sice id
+        //    var storageIdentifier = capability.HashTag.Substring(1);
+
+        //    List<string> HashTags = new List<string>() { _serviceInstance.BotConfiguration.BaseHashTag, capability.HashTag };
+        //    List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
+        //    _statusText += $"Found {tweets.Count} tweets to reply to\n";
+
+        //    //Iterate all found tweets
+        //    foreach (var tweet in tweets)
+        //    {
+        //        //Build the reply message based on bots capabilities
+        //        var reply = $"@{tweet.User.ScreenName} \n\n XXXXXXXX ";
+
+        //        //Send tweet
+        //        _twitterHelper.SendTweet(storageIdentifier, tweet, reply);
+        //        _statusText += $"Reply to {tweet.Author.ScreenName} sent!\n";
+        //    }
+
+        //    return _statusText;
+        //}
     }
 }

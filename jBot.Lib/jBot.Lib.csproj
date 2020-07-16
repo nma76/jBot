@@ -9,6 +9,8 @@
     <Folder Include="Business\" />
     <Folder Include="Business\SystemCommand\" />
     <Folder Include="Business\ImageOverlay\" />
+    <Folder Include="Business\NameGenerator\" />
+    <Folder Include="Business\Extension\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TweetMoaSharp" Version="6.0.2" />

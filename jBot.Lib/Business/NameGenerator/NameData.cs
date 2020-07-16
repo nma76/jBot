@@ -78,7 +78,7 @@ namespace jBot.Lib.Business.NameGenerator
             {
                 Name = "Morgan Johansson",
                 Type = "Huvuddomare",
-                Description = "Har dömt 752 matcher som huvuddomare i SHL.shl  Har en grabb som spelar i Trojas juniorer och en dotter som spelar i HV71. "
+                Description = "Har dömt 752 matcher som huvuddomare i SHL. Har en grabb som spelar i Trojas juniorer och en dotter som spelar i HV71. "
             },
             new Person()
             {

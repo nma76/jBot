@@ -156,7 +156,7 @@ namespace jBot.Lib.Business
 
                 //Build the reply message based on bots capabilities
                 var reply = $"@{tweet.User.ScreenName} \n\n  You are: ";
-                reply += $"{referee.Referee.Type} {referee.Referee.Name}";
+                reply += $"{referee.Referee.Type} {referee.Referee.Name} \n {referee.Referee.Description}";
 
                 //Send tweet
                 _twitterHelper.SendTweet(storageIdentifier, tweet, reply);

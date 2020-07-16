@@ -145,10 +145,13 @@ namespace jBot.Lib.Business
             List<TwitterStatus> tweets = _twitterHelper.GetTweets(storageIdentifier, HashTags);
             _statusText += $"Found {tweets.Count} tweets to reply to\n";
 
+            //Initialize generator and populate with names
+            Generator referee = new Generator(NameData.Referees);
+
             //Iterate all found tweets
             foreach (var tweet in tweets)
             {
-                Generator referee = new Generator(NameData.Referees);
+                //Set tweeters name as original name
                 referee.OriginalName = tweet.User.Name;
 
                 //Build the reply message based on bots capabilities

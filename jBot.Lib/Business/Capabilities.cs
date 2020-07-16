@@ -10,21 +10,21 @@ namespace jBot.Lib.Business
         {
             return new List<Capability>()
             {
-                //new Capability()
-                //{
-                //    HashTag = "#help",
-                //    Description = "Show all capabilities"
-                //},
-                //new Capability()
-                //{
-                //    HashTag = "#uptime",
-                //    Description = "Show how long bot has been running"
-                //},
-                //new Capability()
-                //{
-                //    HashTag = "#fbk",
-                //    Description = "Adds FBK logo to your profile picture"
-                //},
+                new Capability()
+                {
+                    HashTag = "#help",
+                    Description = "Show all capabilities"
+                },
+                new Capability()
+                {
+                    HashTag = "#uptime",
+                    Description = "Show how long bot has been running"
+                },
+                new Capability()
+                {
+                    HashTag = "#fbk",
+                    Description = "Adds FBK logo to your profile picture"
+                },
                 new Capability()
                 {
                     HashTag = "#referee",
